@@ -58,13 +58,97 @@ Hampir sama dengan penjelasan 1B hanya saja terdapat sedikit perbedaan yaitu:
 
 `head -n 10` untuk menampilkan 10 data teratas.
 
-## No 2 
+## No 2 Bash Script
 
-### Source Code : 
+### Source Code :  [2A&B](https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/makepass.sh)
 
 ```bash
+#! /bin/bash
+pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c28 | head -n 1)
 
+while true; do
+if [[ $1 =~ ^[A-Za-z]+$ ]];then
+	file="$1.txt"
+	echo "$pass" > "$file"
+	break
+	else
+	echo "HURUF ONLY"
+	break
+	fi
+done
 ```
+
+A. Membuat sebuah password acak yang terdapat huruf besar, huruf kecil, dan angka sebanyak 28 karakter.
+
+`pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c28 | head -n 1)` merupakan salah satu codingan yang mengimplementasikan "Caesar Cipher, yang memiliki fungsi untuk menghasilkan sebuah string yang berisi 28 karakter yang berisi huruf besar, huruf kecil, dan angka.
+
+B. Menyimpan nama file pada sebuah file berekstensi .txt yang diberi nama berdasarkan argumen yang diinputkan hanya berupa alfabet.
+
+`while true; do
+if [[ $1 =~ ^[A-Za-z]+$ ]];then
+	file="$1.txt"
+	echo "$pass" > "$file"
+	break
+	else
+	echo "HURUF ONLY"
+	break
+	fi
+done` di dalam state if tersebut akan dilakukan pengecekan apakah nama file tersebut berupa alfabet atau bukan, jika berupa alfabet, maka akan menyimpan nama file tersebut, jika bukan, maka akan mengeluarkan pernyataan "HURUF ONLY"
+
+
+### Source Code :  [2C]https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/passenc.sh
+
+```bash
+#!/bin/bash
+
+before=$1
+
+jam=`date "+%H"`
+
+big=`expr $jam + 98`
+smol=`expr $jam + 97`
+
+chr() {
+printf "\\$(printf '%03o' "$1")"
+}
+
+upper=`chr $big`
+lower=`chr $smol`
+
+after=`printf "$before" | tr b-zaB-ZA $upper-za-$lower${upper^^}-ZA-${lower^^}`
+
+mv $before.txt $after.txt
+```
+
+C. Nama file tersebut akan di enkripsi menggunakan string manipulation yang disesuaikan oleh jam file tersebut dibuat.
+
+
+### Source Code :  [2D]https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/passdec.sh
+
+```bash
+#!/bin/bash
+
+after="${1%.*}"
+
+lasttime=$(date +%H -r $1)
+echo $lasttime
+
+atas=`expr $lasttime + 98`
+bawah=`expr $lasttime + 97`
+
+chr() {
+  printf "\\$(printf '%03o' "$1")"
+}
+
+upper=`chr $atas`
+lower=`chr $bawah`
+
+before=`printf "$after" | tr $upper-za-$lower${upper^^}-ZA-${lower^^} b-zaB-ZA`
+
+mv $after.txt $before.txt
+```
+
+D.
 
 ## No 3 Bash, AWK, Crontab
 
