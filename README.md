@@ -121,7 +121,19 @@ mv $before.txt $after.txt
 ```
 
 C. Nama file tersebut akan di enkripsi menggunakan string manipulation yang disesuaikan oleh jam file tersebut dibuat.
+`date "+%H"` untuk mengambil value jam saat ini
 
+`expr $jam + 98` sebagai batasan atas.
+
+`expr $jam + 97` sebagai batasan bawah.
+
+`chr() {
+printf "\\$(printf '%03o' "$1")"
+}` fungsi untuk mengubah nilai desimal menjadi karakter ASCII.
+
+`printf "$before" | tr b-zaB-ZA $upper-za-$lower${upper^^}-ZA-${lower^^}` untuk melakukan enkripsi nama file.
+
+`mv $before.txt $after.txt` untuk mengubah nama file menjadi yang sudah di enkripsikan.
 
 ### Source Code :  [2D]https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/passdec.sh
 
@@ -131,7 +143,6 @@ C. Nama file tersebut akan di enkripsi menggunakan string manipulation yang dise
 after="${1%.*}"
 
 lasttime=$(date +%H -r $1)
-echo $lasttime
 
 atas=`expr $lasttime + 98`
 bawah=`expr $lasttime + 97`
@@ -148,7 +159,12 @@ before=`printf "$after" | tr $upper-za-$lower${upper^^}-ZA-${lower^^} b-zaB-ZA`
 mv $after.txt $before.txt
 ```
 
-D.
+D. Men-decrypt nama file menjadi nama file semula
+
+`(date +%H -r $1)` untuk mendapatkan nilai di jam berapa file tersebut di encrypt.
+
+Kurang lebih di soal ini mirip dengan soal C, namun yang berbeda terdapat di bagian:
+`printf "$after" | tr $upper-za-$lower${upper^^}-ZA-${lower^^} b-zaB-ZA` dimana bagian ini merupakan kebalikan dari fungsi encrypt, yang berfungsi untuk mengembalikan nama file menjadi seperti semula.
 
 ## No 3 Bash, AWK, Crontab
 
