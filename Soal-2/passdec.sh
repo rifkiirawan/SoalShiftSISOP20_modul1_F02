@@ -3,7 +3,6 @@
 after="${1%.*}"
 
 lasttime=$(date +%H -r $1)
-echo $lasttime
 
 atas=`expr $lasttime + 98`
 bawah=`expr $lasttime + 97`
