@@ -200,6 +200,10 @@ Pertama ketik crontab -e pada terminal untuk membuka crontab, kemudian diisi den
 
 ```bash
 #!/bin/bash
+
+grep "Location" wget.log > location.log
+readarray myarray < location.log
+
 for i in {1..28}
 do
 	for j in {1..28}
@@ -207,7 +211,7 @@ do
 		if [ $i -eq $j ]
 		then
 			continue
-		elif cmp -s "pdkt_kusuma_$i" "pdkt_kusuma_$j"
+		elif [ "${myarray[$i]}" = "${myarray[$j]}" ]
 		then
 			mv pdkt_kusuma_$i ./duplicate/duplicate_$i
 		fi
@@ -220,13 +224,17 @@ done
 cp wget.log wget.log.bak
 
 ```
-B. Mengidentifikasi gambar yang didownload, bila identik sisakan 1 gambar dan lainnya dimasukkan ke folder duplicate dengan nama duplicate_nomor, sisanya masukkan semua gambar ke dalam folder kenangan dengan nama kenangan_nomor. Kemudian back up log menjadi file berekstensi .log.bak.
+C. Mengidentifikasi gambar yang didownload, bila identik sisakan 1 gambar dan lainnya dimasukkan ke folder duplicate dengan nama duplicate_nomor, sisanya masukkan semua gambar ke dalam folder kenangan dengan nama kenangan_nomor. Kemudian back up log menjadi file berekstensi .log.bak.
+
+`grep "Location" wget.log > location.log` untuk mencari kata Location dan memasukkan satu baris ke location.log
+
+`readarray myarray < location.log` untuk memasukkan list di location.log ke dalam array
 
 Untuk pengecekan seluruh gambar, maka dibuat nested for 28 kali 28 agar semua gambar dapat dicompare.
 
 `if [ $i -eq $j ]` Jika sebuah gambar dicompare dengan gambar itu sendiri maka pasti akan sama, sehingga harus dilewatkan.
 
-`cmp -s "pdkt_kusuma_$i" "pdkt_kusuma_$j"` penggunaan command `cmp` untuk memeriksa apakah gambar tersebut sama dengan gambar pembandingnya. `-s` akan tidak menghasilkan apapun apabila gambar sama sehingga dianggap true.
+`elif [ "${myarray[$i]}" = "${myarray[$j]}" ]"` Untuk memeriksa apakah gambar tersebut sama dengan gambar pembandingnya, dengan membandingkan string location pada array.
 
 `mv pdkt_kusuma_$i ./duplicate/duplicate_$i` pemindahan (move) file pdkt_kusuma_nomorgambar ke dalam folder duplicate dengan rename duplicate_nomorgambaryangsama. Demikian juga pada `./kenangan/kenangan_$i`.
 
