@@ -96,7 +96,7 @@ if [[ $1 =~ ^[A-Za-z]+$ ]];then
 done` di dalam state if tersebut akan dilakukan pengecekan apakah nama file tersebut berupa alfabet atau bukan, jika berupa alfabet, maka akan menyimpan nama file tersebut, jika bukan, maka akan mengeluarkan pernyataan "HURUF ONLY"
 
 
-### Source Code :  [2C]https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/soal2_coba.sh
+### Source Code :  [2C](https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/soal2_coba.sh)
 
 ```bash
 #!/bin/bash
@@ -126,7 +126,7 @@ untuk melakukan looping sesuai jam saat ini, dan nama file akan digeser karakter
 
 `mv $before.txt $after.txt` untuk mengubah nama file menjadi yang sudah di enkripsikan.
 
-### Source Code :  [2D]https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/soal2_wadaw.sh
+### Source Code :  [2D](https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/soal2_wadaw.sh)
 
 ```bash
 #!/bin/bash
