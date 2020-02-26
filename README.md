@@ -96,7 +96,7 @@ if [[ $1 =~ ^[A-Za-z]+$ ]];then
 done` di dalam state if tersebut akan dilakukan pengecekan apakah nama file tersebut berupa alfabet atau bukan, jika berupa alfabet, maka akan menyimpan nama file tersebut, jika bukan, maka akan mengeluarkan pernyataan "HURUF ONLY"
 
 
-### Source Code :  [2C]https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/passenc.sh
+### Source Code :  [2C]https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/soal2_coba.sh
 
 ```bash
 #!/bin/bash
@@ -105,66 +105,57 @@ before=$1
 
 jam=`date "+%H"`
 
-big=`expr $jam + 98`
-smol=`expr $jam + 97`
-
-chr() {
-printf "\\$(printf '%03o' "$1")"
-}
-
-upper=`chr $big`
-lower=`chr $smol`
-
-after=`printf "$before" | tr b-zaB-ZA $upper-za-$lower${upper^^}-ZA-${lower^^}`
+while [ $jam -gt 0 ]
+do
+ after=$(echo $before | tr '[A-Za-z]' '[B-ZAb-za]')
+ jam=$((jam-1))
+done
 
 mv $before.txt $after.txt
 ```
 
 C. Nama file tersebut akan di enkripsi menggunakan string manipulation yang disesuaikan oleh jam file tersebut dibuat.
-`date "+%H"` untuk mengambil value jam saat ini
+`date "+%H"` untuk mengambil value jam saat ini.
 
-`expr $jam + 98` sebagai batasan atas.
-
-`expr $jam + 97` sebagai batasan bawah.
-
-`chr() {
-printf "\\$(printf '%03o' "$1")"
-}` fungsi untuk mengubah nilai desimal menjadi karakter ASCII.
-
-`printf "$before" | tr b-zaB-ZA $upper-za-$lower${upper^^}-ZA-${lower^^}` untuk melakukan enkripsi nama file.
+`while [ $jam -gt 0 ]
+do
+ after=$(echo $before | tr '[A-Za-z]' '[B-ZAb-za]')
+ jam=$((jam-1))
+done`
+untuk melakukan looping sesuai jam saat ini, dan nama file akan digeser karakternya sesuai jam-nya.
 
 `mv $before.txt $after.txt` untuk mengubah nama file menjadi yang sudah di enkripsikan.
 
-### Source Code :  [2D]https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/passdec.sh
+### Source Code :  [2D]https://github.com/rifkiirawan/SoalShiftSISOP20_modul1_F02/blob/master/Soal-2/soal2_wadaw.sh
 
 ```bash
 #!/bin/bash
 
 after="${1%.*}"
 
-lasttime=$(date +%H -r $1)
+jam=$(date +%H -r $1)
 
-atas=`expr $lasttime + 98`
-bawah=`expr $lasttime + 97`
-
-chr() {
-  printf "\\$(printf '%03o' "$1")"
-}
-
-upper=`chr $atas`
-lower=`chr $bawah`
-
-before=`printf "$after" | tr $upper-za-$lower${upper^^}-ZA-${lower^^} b-zaB-ZA`
+while [ $jam -gt 0 ]
+do
+ before=$(echo $after | tr '[B-ZAb-za]' '[A-Za-z]')
+ jam=$((jam-1))
+done
 
 mv $after.txt $before.txt
 ```
 
-D. Men-decrypt nama file menjadi nama file semula
+D. Men-decrypt nama file menjadi nama file semula.
 
 `(date +%H -r $1)` untuk mendapatkan nilai di jam berapa file tersebut di encrypt.
 
-Kurang lebih di soal ini mirip dengan soal C, namun yang berbeda terdapat di bagian:
-`printf "$after" | tr $upper-za-$lower${upper^^}-ZA-${lower^^} b-zaB-ZA` dimana bagian ini merupakan kebalikan dari fungsi encrypt, yang berfungsi untuk mengembalikan nama file menjadi seperti semula.
+`while [ $jam -gt 0 ]
+do
+ before=$(echo $after | tr '[B-ZAb-za]' '[A-Za-z]')
+ jam=$((jam-1))
+done`
+lalu akan dilakukan pergeseran tiap karakter pada nama file yang semula di encrypt, menjadi di decrypt sesuai dengan jam terakhir file tersebut di modified. 
+
+`mv $after.txt $before.txt` untuk mengubah nama file menjadi yang sudah di dekripsikan.
 
 ## No 3 Bash, AWK, Crontab
 
